@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.ActivityManager
 import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
@@ -15,6 +17,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +37,7 @@ import com.hunglee.mymusicproject.services.MusicService
 
 class HomeFragment : Fragment(), View.OnClickListener {
 
+    private var data: ByteArray? = null
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
     private var mainCategoryRecycler: RecyclerView? = null
@@ -43,6 +47,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private val allCategory: MutableList<AllCategory> = mutableListOf()
     private val intentFilter = IntentFilter()
     private val updatePlayNewSong = UpdatePlayNewSong()
+    val myFragment: FragmentManager? = null
+    var mf: Fragment? = null
+    var isFirstRun : Boolean = true
+
 
     //    private var trackActivity: TrackActivity? = null
     private var musicService = MusicService()
@@ -54,7 +62,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,7 +73,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        root = binding.root
+        root = binding!!.root
 
 
         if (ActivityCompat.checkSelfPermission(
@@ -89,7 +97,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
         setMainCategoryRecycler()
         initComponent()
         setOnClick()
-        showBottomLayout(false)
+        if (isMyServiceRunning(MusicService::class.java))
+            showBottomLayout(true)
+        else
+            showBottomLayout(false)
 
 
         this.runnable.run()
@@ -104,6 +115,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
 //        offCatTv = bindingRowItemBinding.tvTitle
 //        offCatTv!!.isSelected = true
 //        offCatTv!!.setHorizontallyScrolling(true)
+
+
 
         return root
     }
@@ -122,7 +135,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private fun initComponent() {
 
-        binding.mainRecycler.adapter = mainRecyclerAdaper
+        binding!!.mainRecycler.adapter = mainRecyclerAdaper
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         homeViewModel.songCharts.observe(viewLifecycleOwner) {
             songCharts2.clear()
@@ -190,10 +203,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
                     Log.d("doanpt", "Send ACTION PLAY NEW")
                     musicService.playPauseSong(true)
-                    binding.bottomMenu.tvBottomTitleSong.text = MediaManager.getCurrentSong().title
-                    binding.bottomMenu.tvBottomNameArtist.text =
+                    binding!!.bottomMenu.tvBottomTitleSong.text = MediaManager.getCurrentSong().title
+                    binding!!.bottomMenu.tvBottomNameArtist.text =
                         MediaManager.getCurrentSong().artistsNames
                 }
+                showBottomLayout(true)
 
 
 //                    MediaManager.getCurrentSong().artistsNames
@@ -314,32 +328,69 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun showBottomLayout(isShow: Boolean) {
         if (isShow) {
-            binding.bottomMenu.root.visibility = View.VISIBLE
+            binding!!.bottomMenu.root.visibility = View.VISIBLE
         } else {
-            binding.bottomMenu.root.visibility = View.GONE
+            binding!!.bottomMenu.root.visibility = View.GONE
         }
     }
 
     private var runnable: Runnable = object : Runnable {
         override fun run() {
+//            if (mf != null) {
+//                if (binding.bottomMenu.root.isVisible && mf!!.isVisible) {
+//                    updateInforBottomLayout()
+//                }
+//            }
+//            mf = myFragment?.findFragmentById(R.id.nav_home)
+//            if (mf!= null) {
+//                Log.d("doanpt", "Home fragment")
+//            }
+//            else
+//                Log.d("doanpt", "Non Home Fragment")
+//            if (binding.bottomMenu.root.isVisible)
             updateInforBottomLayout()
             Handler().postDelayed(this, 200)
         }
     }
 
     private fun updateInforBottomLayout() {
-        if (MediaManager.mediaPlayer.isPlaying) {
-            binding.bottomMenu.imvPausePlay.setImageResource(R.drawable.ic_baseline_pause_24)
-        } else {
-            binding.bottomMenu.imvPausePlay.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+//        if (isMyServiceRunning(MusicService::class.java))
+//            showBottomLayout(false)
+//        else
+//            showBottomLayout(true)
+        if (binding != null) {
+            if (MediaManager.mediaPlayer.isPlaying) {
+                binding!!.bottomMenu.imvPausePlay.setImageResource(R.drawable.ic_baseline_pause_24)
+            } else {
+                binding!!.bottomMenu.imvPausePlay.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+            }
+            if (MediaManager.getCurrentPossion() != -1) {
+
+                val mmr = MediaMetadataRetriever()
+                mmr.setDataSource(MediaManager.getCurrentSong().path)
+                data = mmr.embeddedPicture
+                if (data != null) {
+                    val bitmap = BitmapFactory.decodeByteArray(data, 0, data!!.size)
+                    binding!!.bottomMenu.imvImageSong.setImageBitmap(bitmap)
+                } else {
+                    binding!!.bottomMenu.imvImageSong.setImageResource(R.drawable.ic_music)
+                }
+                binding!!.bottomMenu.imvImageSong.adjustViewBounds = true
+
+                binding!!.bottomMenu.tvBottomTitleSong.text = MediaManager.getCurrentSong().title
+                binding!!.bottomMenu.tvBottomNameArtist.text =
+                    MediaManager.getCurrentSong().artistsNames
+            }
         }
+
+
     }
 
     private fun setOnClick() {
-        binding.bottomMenu.imvPausePlay.setOnClickListener(this)
-        binding.bottomMenu.imvNext.setOnClickListener(this)
-        binding.bottomMenu.imvPrevious.setOnClickListener(this)
-        binding.bottomMenu.llDetailTitleSong.setOnClickListener(this)
+        binding!!.bottomMenu.imvPausePlay.setOnClickListener(this)
+        binding!!.bottomMenu.imvNext.setOnClickListener(this)
+        binding!!.bottomMenu.imvPrevious.setOnClickListener(this)
+        binding!!.bottomMenu.llDetailTitleSong.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -358,6 +409,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
             R.id.imv_pause_play -> {
                 intent.action = Const.ACTION_PAUSE_SONG
+                Log.d("doanpt", "Send ACTION PAUSE PLAY from button")
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
             }
             R.id.ll_detail_title_song -> {
@@ -381,15 +433,38 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     fun setInforBottomLayout(nameSong: String?, nameArtist: String?) {
-        binding.bottomMenu.tvBottomTitleSong.text = nameSong
-        binding.bottomMenu.tvBottomNameArtist.text = nameArtist
+        if (binding != null) {
+            binding!!.bottomMenu.tvBottomTitleSong.text = nameSong
+            binding!!.bottomMenu.tvBottomNameArtist.text = nameArtist
+        }
     }
 
 
     override fun onDestroy() {
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(updatePlayNewSong)
-        requireContext().unbindService(connection)
+        if (isMyServiceRunning(MusicService::class.java)) {
+            requireContext().unbindService(connection)
+        }
         super.onDestroy()
+    }
+
+
+    override fun onResume() {
+        musicService.setContextFromMS(requireContext())
+        super.onResume()
+        if (musicService.getIsPushNotif())
+            isFirstRun = false
+        if (isFirstRun)
+            showBottomLayout(false)
+        else {
+            showBottomLayout(true)
+
+        }
+
+    }
+
+    override fun onDetach() {
+        super.onDetach()
     }
 
 

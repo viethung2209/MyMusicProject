@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
 import android.os.Binder
 import android.os.Build
 import android.os.Handler
@@ -20,6 +22,7 @@ import com.hunglee.mymusicproject.media.MediaManager
 import com.hunglee.mymusicproject.model.Song
 
 class MusicService : Service() {
+    private var data: ByteArray? = null
     private val binder = MusicBinder()
     private val musicReceiver = MusicReceiver()
     private lateinit var notificationView: RemoteViews
@@ -27,6 +30,9 @@ class MusicService : Service() {
     private lateinit var notificationCompat: NotificationCompat.Builder
     private val musicFilter = IntentFilter()
     private var isStop: Boolean = false
+    private var isPushNotif :Boolean = false
+
+    fun getIsPushNotif() :Boolean = isPushNotif
 
     override fun onBind(intent: Intent?): IBinder {
 
@@ -50,6 +56,9 @@ class MusicService : Service() {
 
 
     }
+    fun setContextFromMS(context: Context?) {
+        MediaManager.setContext(context)
+    }
 
 
     override fun onUnbind(intent: Intent?): Boolean {
@@ -71,7 +80,7 @@ class MusicService : Service() {
 
     private var runnable: Runnable = object : Runnable {
         override fun run() {
-            if (!isStop) {
+            if (isStop == false) {
                 updateNotif()
                 startForeground(123, builder.build())
                 Handler().postDelayed(this, 500)
@@ -93,6 +102,19 @@ class MusicService : Service() {
                 R.drawable.ic_baseline_play_arrow_24
             )
         }
+
+        val mmr = MediaMetadataRetriever()
+        mmr.setDataSource(MediaManager.getCurrentSong().path)
+        data = mmr.embeddedPicture
+        if (data != null) {
+            val bitmap = BitmapFactory.decodeByteArray(data, 0, data!!.size)
+            notificationView.setImageViewBitmap(R.id.ivNoti, bitmap)
+        } else {
+            notificationView.setImageViewResource(R.id.ivNoti, R.drawable.ic_music)
+        }
+
+
+
     }
 
     private fun runForeground() {
@@ -165,6 +187,7 @@ class MusicService : Service() {
 //            .setMediaSession(mediaSessionCompat.sessionToken)
         builder.setSmallIcon(R.drawable.ic_baseline_music_note_24)
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             builder.setCustomContentView(notificationView)
         } else {
@@ -182,7 +205,7 @@ class MusicService : Service() {
 //        notificationManager.notify(1, notification)
 
         startForeground(123, notification)
-
+        isPushNotif = true
         runnable.run()
 
     }
@@ -226,6 +249,7 @@ class MusicService : Service() {
                     notificationView.setTextViewText(R.id.tv_title, song.title)
                     notificationView.setTextViewText(R.id.tv_artist, song.artistsNames)
                     startForeground(123, builder.build())
+                    isPushNotif = true
                 }
 
                 Const.ACTION_NEXT -> {
@@ -235,6 +259,7 @@ class MusicService : Service() {
                     notificationView.setTextViewText(R.id.tv_title, song.title)
                     notificationView.setTextViewText(R.id.tv_artist, song.artistsNames)
                     startForeground(123, builder.build())
+                    isPushNotif = true
 
                     nextSong()
                 }
@@ -245,6 +270,7 @@ class MusicService : Service() {
                     notificationView.setTextViewText(R.id.tv_title, song.title)
                     notificationView.setTextViewText(R.id.tv_artist, song.artistsNames)
                     startForeground(123, builder.build())
+                    isPushNotif = true
 
                     preSong()
                 }
@@ -266,6 +292,7 @@ class MusicService : Service() {
                     notificationView.setTextViewText(R.id.tv_title, song.title)
                     notificationView.setTextViewText(R.id.tv_artist, song.artistsNames)
                     startForeground(123, builder.build())
+                    isPushNotif = true
 
                     playPauseSong()
 
@@ -279,6 +306,7 @@ class MusicService : Service() {
                     val intentStop = Intent(Const.ACTION_STOP_ALL)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     this@MusicService.stopForeground(true)
+                    isPushNotif = false
 
 
                 }
@@ -293,6 +321,7 @@ class MusicService : Service() {
         unregisterReceiver(musicReceiver)
         stopSelf()
         this@MusicService.stopForeground(true)
+//        MediaManager.setContext(null)
         super.onDestroy()
 
     }

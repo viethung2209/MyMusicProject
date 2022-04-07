@@ -13,12 +13,15 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.hunglee.mymusicproject.R
+import com.hunglee.mymusicproject.acitivity.ui.home.HomeFragment
 import com.hunglee.mymusicproject.databinding.ActivityNavigationDrawerBinding
+import com.hunglee.mymusicproject.media.MediaManager
 
 class NavigationDrawer : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityNavigationDrawerBinding
+    private  var binHomeFragment =HomeFragment()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +69,7 @@ class NavigationDrawer : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+
         val navController = findNavController(R.id.nav_host_fragment_content_navigation_drawer)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
@@ -84,7 +88,11 @@ class NavigationDrawer : AppCompatActivity() {
     }
 
     private fun launchUpdate() {
-        TODO("Not yet implemented")
+        MediaManager.getAllSongFromStorage(this)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.nav_home, binHomeFragment.javaClass.newInstance())
+            .commit()
+
     }
 
     private fun showSleepTimer() {

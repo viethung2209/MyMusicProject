@@ -17,11 +17,14 @@ import com.hunglee.mymusicproject.helpers.Const
 import com.hunglee.mymusicproject.helpers.SharePreferencesController
 import com.hunglee.mymusicproject.media.MediaManager
 import com.hunglee.mymusicproject.model.Song
+import com.hunglee.mymusicproject.services.MusicService
 
 class TrackActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityTrackBinding
     private val songList: ArrayList<Song> = MediaManager.getMySongList()
     var data: ByteArray? = null
+    private var musicService = MusicService()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +35,8 @@ class TrackActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityTrackBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        MediaManager.setContext(this)
+//        MediaManager.setContext(this)
+        musicService.setContextFromMS(this)
         initView()
         runnable.run()
 
@@ -57,6 +61,7 @@ class TrackActivity : AppCompatActivity(), View.OnClickListener {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
         binding.isLikedTrack.setOnClickListener(this)
+        binding.activityTrackToolbar.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -83,6 +88,9 @@ class TrackActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.activity_track_playback_setting -> {
                 changeStateLoop()
+            }
+            R.id.activity_track_toolbar -> {
+                finish()
             }
         }
     }
@@ -220,8 +228,10 @@ class TrackActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onDestroy() {
+//        musicService.setContextFromMS(null)
         super.onDestroy()
-        MediaManager.setContext(null)
+//        MediaManager.setContext(null)
 
     }
-}
+
+ }
