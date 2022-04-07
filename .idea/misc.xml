@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3035" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.3035" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.166" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_baseline_repeat_24.xml" value="0.2125" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_baseline_repeat_24_on.xml" value="0.2125" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_baseline_repeat_one_24.xml" value="0.2125" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_baseline_sentiment_very_satisfied_24.xml" value="0.3035" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_baseline_shuffle_24.xml" value="0.3035" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_baseline_shuffle_24_on.xml" value="0.2125" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_baseline_skip_next_24.xml" value="0.215" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3035" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_menu_camera.xml" value="0.3035" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.3035" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.1175925925925926" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/drawable/side_nav_bar.xml" value="0.14635416666666667" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/activity_navigation_drawer.xml" value="0.25416666666666665" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/activity_splash.xml" value="0.36666666666666664" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/activity_track.xml" value="0.264" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/app_bar_navigation_drawer.xml" value="0.1793478260869565" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/bottm_menu.xml" value="0.29292929292929293" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/cat_row_item.xml" value="0.4" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/content_navigation_drawer.xml" value="0.1793478260869565" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/fragment_contact_us.xml" value="0.2318840579710145" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/fragment_gallery.xml" value="0.10648148148148148" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/fragment_language.xml" value="0.1" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/fragment_liked_song.xml" value="0.13020833333333334" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/fragment_profile.xml" value="0.1" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/fragment_settings.xml" value="0.2318840579710145" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/fragment_slideshow.xml" value="0.25416666666666665" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/item_album.xml" value="0.536" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/item_artist.xml" value="0.13020833333333334" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/item_song.xml" value="0.13020833333333334" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/layout_notification.xml" value="0.33" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/main_recycler_row_item.xml" value="0.176" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/layout/nav_header_navigation_drawer.xml" value="0.25416666666666665" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/menu/activity_main_drawer.xml" value="0.536" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/menu/menu_track.xml" value="0.10925925925925926" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/menu/navigation_drawer.xml" value="0.25416666666666665" />
+        <entry key="..\:/Learning Files/BasicAndroidTraining/MyMusicProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2324074074074074" />
+      </map>
+    </option>
+  </component>
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="com.bumptech.glide.annotation.GlideModule" />
+    </list>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
