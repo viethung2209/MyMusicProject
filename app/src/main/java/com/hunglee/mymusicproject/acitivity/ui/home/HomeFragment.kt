@@ -441,18 +441,19 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
 
     override fun onDestroy() {
+
+        super.onDestroy()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(updatePlayNewSong)
         if (isMyServiceRunning(MusicService::class.java)) {
             requireContext().unbindService(connection)
         }
-        super.onDestroy()
     }
 
 
     override fun onResume() {
         musicService.setContextFromMS(requireContext())
         super.onResume()
-        if (musicService.getIsPushNotif())
+        if (MediaManager.mediaPlayer.isPlaying)
             isFirstRun = false
         if (isFirstRun)
             showBottomLayout(false)
@@ -464,6 +465,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onDetach() {
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(updatePlayNewSong)
+        if (isMyServiceRunning(MusicService::class.java)) {
+            requireContext().unbindService(connection)
+        }
         super.onDetach()
     }
 

@@ -1,5 +1,6 @@
 package com.hunglee.mymusicproject.acitivity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,13 +16,17 @@ import com.google.android.material.snackbar.Snackbar
 import com.hunglee.mymusicproject.R
 import com.hunglee.mymusicproject.acitivity.ui.home.HomeFragment
 import com.hunglee.mymusicproject.databinding.ActivityNavigationDrawerBinding
+import com.hunglee.mymusicproject.helpers.Const
 import com.hunglee.mymusicproject.media.MediaManager
+import com.hunglee.mymusicproject.services.MusicService
 
 class NavigationDrawer : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityNavigationDrawerBinding
     private  var binHomeFragment =HomeFragment()
+    private var musicService = MusicService()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,5 +104,12 @@ class NavigationDrawer : AppCompatActivity() {
         TODO("Not yet implemented")
     }
 
+    override fun onDestroy() {
+        val intent = Intent()
+        intent.action = Const.ACTION_STOP
+        stopService(intent)
+        super.onDestroy()
 
+
+    }
 }

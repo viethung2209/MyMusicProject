@@ -320,7 +320,7 @@ class MusicService : Service() {
     override fun onDestroy() {
         unregisterReceiver(musicReceiver)
         stopSelf()
-        this@MusicService.stopForeground(true)
+        this@MusicService.stopForeground(false)
 //        MediaManager.setContext(null)
         super.onDestroy()
 
